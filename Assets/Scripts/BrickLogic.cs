@@ -10,8 +10,14 @@ public class BrickLogic : MonoBehaviour
 
     public GameLogic gameLogic;  // Referenz auf das GameLogic-Skript (für die Punkteverwaltung)
 
+    public GameObject[] powerUpPrefabs;  // Array für die möglichen PowerUps
+
+
     // Dictionary zur Speicherung der Materialien und ihrer Wahrscheinlichkeiten
     private Dictionary<Material, float> materialProbabilities;
+    private Dictionary<Material, float> powerUpProbabilities;
+
+    private Material selectedMaterial;  // Das Material, das für den Brick ausgewählt wurde
 
     private float brickLife = 1.0f;  // Lebensdauer des Bricks
 
@@ -21,18 +27,27 @@ public class BrickLogic : MonoBehaviour
         // Initialisiere das Dictionary mit Materialien und ihren Wahrscheinlichkeiten
         materialProbabilities = new Dictionary<Material, float>
         {
-            { greyMaterial, 0.6f },  // 50% Wahrscheinlichkeit
-            { greenMaterial, 0.3f },   // 30% Wahrscheinlichkeit
-            { blueMaterial, 0.1f }    // 20% Wahrscheinlichkeit
+            { greyMaterial, 0.6f },
+            { greenMaterial, 0.3f },
+            { blueMaterial, 0.1f }
+        };
+
+        // Initialisiere das Dictionary mit Materialien und ihren Wahrscheinlichkeiten
+        powerUpProbabilities = new Dictionary<Material, float>
+        {
+            { greyMaterial, 0.05f },
+            { greenMaterial, 0.15f },
+            { blueMaterial, 0.30f }
         };
 
         // Wähle ein Material basierend auf den Wahrscheinlichkeiten aus
-        Material selectedMaterial = GetRandomMaterialBasedOnProbability();
+        selectedMaterial = GetRandomMaterialBasedOnProbability();
         // Weise dem Brick das ausgewählte Material zu
         GetComponent<Renderer>().material = selectedMaterial;
 
         gameLogic = FindObjectOfType<GameLogic>();  // Findet die GameLogic im Spiel
         AssignScoreByMaterial();  // Weise Punkte basierend auf dem Material zu
+
     }
 
     // Update is called once per frame
@@ -109,7 +124,33 @@ public class BrickLogic : MonoBehaviour
         else
         {
             Debug.Log("Brick destroyed");
+
+            TryGeneratePowerUp();  // Versuche, ein Power-Up zu generieren
+
+            gameLogic.BrickDestroyed();  // Zähle den zerstörten Brick runter
             Destroy(gameObject);
         }
     }
+
+    // Methode, um ein PowerUp basierend auf den Wahrscheinlichkeiten zu generieren
+    private void TryGeneratePowerUp()
+    {
+        float probability = powerUpProbabilities[selectedMaterial];  // Hole die Wahrscheinlichkeit für das gewählte Material
+        float randomValue = Random.value;  // Generiere eine Zufallszahl zwischen 0 und 1
+
+        // Überprüfe, ob ein Power-Up generiert werden soll
+        if (randomValue <= probability)
+        {
+            // Wähle ein zufälliges Power-Up aus dem Array
+            int randomIndex = Random.Range(0, powerUpPrefabs.Length);
+
+            Debug.Log(randomIndex);
+
+            GameObject selectedPowerUp = powerUpPrefabs[randomIndex];
+
+            // Instanziere das ausgewählte Power-Up an der Position des Bricks
+            Instantiate(selectedPowerUp, transform.position, Quaternion.identity);
+        }
+    }
+
 }

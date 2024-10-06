@@ -17,6 +17,8 @@ public class BallLogic : MonoBehaviour
     private bool gameStart = true;
 
     public GameObject newBall;
+    private float maxXVelocity = 6f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,8 @@ public class BallLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * 100);
         //when space pressed set velocity only on start of game
         if (Input.GetKeyDown(KeyCode.Space) && gameStart)
         {
@@ -60,7 +64,17 @@ public class BallLogic : MonoBehaviour
         }
         else if (other.CompareTag("Paddle"))
         {
-            velocity = new Vector3(velocity.x, -velocity.y, velocity.z);
+            // Get the position of the ball and the paddle
+            Vector3 ballPosition = transform.position;
+            Vector3 paddlePosition = other.transform.position;
+
+            // Calculate the relative position of the ball on the paddle
+            float relativePosition = (ballPosition.x - paddlePosition.x) / other.bounds.size.x;
+
+            // Adjust the x velocity based on the relative position
+            float newVelocityX = relativePosition * maxXVelocity; // maxXVelocity is a predefined maximum x velocity
+
+            velocity = new Vector3(newVelocityX, -velocity.y, velocity.z);
         }
         else if (other.CompareTag("DeadZone"))
         {
@@ -79,4 +93,6 @@ public class BallLogic : MonoBehaviour
             other.gameObject.GetComponent<BrickLogic>().OnHit();
         }
     }
+
+
 }

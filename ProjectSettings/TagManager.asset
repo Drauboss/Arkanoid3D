@@ -9,6 +9,7 @@ TagManager:
   - DeadZone
   - Brick
   - Ball
+  - PowerUp
   layers:
   - Default
   - TransparentFX

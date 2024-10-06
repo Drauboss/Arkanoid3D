@@ -5,6 +5,7 @@ using UnityEngine;
 public class PaddleLogic : MonoBehaviour
 {
     public float speed = 10.0f;
+    private GameLogic gameLogic;
 
     public Transform floor;
 
@@ -12,6 +13,7 @@ public class PaddleLogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameLogic = FindObjectOfType<GameLogic>();
 
     }
 
@@ -27,5 +29,26 @@ public class PaddleLogic : MonoBehaviour
         float clampedX = Mathf.Clamp(posX, -maxX, maxX);
 
         transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PowerUp"))
+        {
+            if (other.name.Contains("1"))
+            {
+                gameLogic.MakePaddeBigger();
+            }
+            else if (other.name.Contains("2"))
+            {
+                gameLogic.MakeGameSlower();
+            }
+            else if (other.name.Contains("3"))
+            {
+                gameLogic.HealthUp();
+            }
+            Debug.Log("PowerUp collected");
+            Destroy(other.gameObject);
+        }
     }
 }
