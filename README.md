@@ -9,7 +9,7 @@ This is Part of a Asssignment for the GamesEngines Class of the Software Enginee
 - Random Level Generation
 - Power-Ups
 - Score Tracking
-- Beutiful Soundtrack and Assets
+- Beautiful Soundtrack and Assets
 
 ## Gameplay
 [![Arkanoid3D](https://img.youtube.com/vi/GV289knoYXM/0.jpg)](https://www.youtube.com/watch?v=GV289knoYXM)
