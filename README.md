@@ -1,8 +1,8 @@
 # Arkanoid3D
-Placeholder
+Arkanoid3D is a 3D version of the classic Arkanoid game.
 
 ## Introduction
-Arkanoid3D is a 3D version of the classic Arkanoid game.
+This is Part of a Asssifnment for the GamesEngines Class of the Software Engineering 
 
 ## Features
 - 3D Graphics
