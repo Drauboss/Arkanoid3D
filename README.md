@@ -12,7 +12,7 @@ This is Part of a Asssignment for the GamesEngines Class of the Software Enginee
 - Beutiful Soundtrack and Assets
 
 ## Gameplay
-<iframe width="560" height="315" src="https://youtu.be/GV289knoYXM" frameborder="0" allowfullscreen></iframe>
+[![Arkanoid3D](https://img.youtube.com/vi/GV289knoYXM/0.jpg)](https://www.youtube.com/watch?v=GV289knoYXM)
 
 ## Installation
 To install and run Arkanoid3D locally, follow these steps: <br>
